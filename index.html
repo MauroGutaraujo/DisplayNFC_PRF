@@ -264,10 +264,11 @@
     window.scrollTo(0, 0);
   }
 
-  // Una respuesta por celular cada 12 horas (evita envíos repetidos)
+  // Una respuesta por celular y por agencia cada 12 horas (evita envíos repetidos)
   const ESPERA_MS = 12 * 60 * 60 * 1000;
+  function claveEnvio() { return "rf_enviado_" + agenciaFinal(); }
   function yaRespondio() {
-    try { return Date.now() - Number(localStorage.getItem("rf_enviado") || 0) < ESPERA_MS; }
+    try { return Date.now() - Number(localStorage.getItem(claveEnvio()) || 0) < ESPERA_MS; }
     catch (e) { return false; }
   }
 
@@ -286,7 +287,7 @@
     if (nom) datos.append(E.nombre, nom);
     try {
       await fetch(FORM_POST, { method: "POST", mode: "no-cors", body: datos, referrerPolicy: "no-referrer" });
-      try { localStorage.setItem("rf_enviado", String(Date.now())); } catch (e) {}
+      try { localStorage.setItem(claveEnvio(), String(Date.now())); } catch (e) {}
       mostrar("gracias");
     } catch (e) {
       btn.disabled = false;
