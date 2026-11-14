@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src https://docs.google.com; img-src 'self' data:; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Préstamos Rápido y Fácil · ¡Hola!</title>
+<style>
+  :root {
+    --verde: #00b400;
+    --naranja: #ff6e21;
+    --naranja-suave: #fff1e9;
+    --oscuro: #303133;
+    --fondo: #f7f7f7;
+    --texto: #141618;
+    --gris: #6b6f73;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px 16px 40px;
+  }
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 22px;
+    border-top: 6px solid var(--naranja);
+    padding: 28px 22px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    align-self: flex-start;
+  }
+  .centro { text-align: center; }
+  .oculto { display: none !important; }
+
+  .logo {
+    display: inline-block;
+    background: var(--oscuro);
+    border-radius: 14px;
+    padding: 10px 20px;
+    margin-bottom: 16px;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1.05;
+    text-align: left;
+  }
+  .logo .p { color: var(--verde); font-size: 11px; display: block; }
+  .logo .r { color: #fff; font-size: 22px; display: block; }
+  .logo .f { color: var(--naranja); font-size: 22px; display: block; padding-left: 16px; }
+
+  h1 { font-size: 22px; margin-bottom: 6px; }
+  h2 { font-size: 19px; margin-bottom: 4px; }
+  .sub { font-size: 15px; color: var(--gris); line-height: 1.4; margin-bottom: 22px; }
+  .agencia {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--naranja);
+    background: var(--naranja-suave);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  .agencia:empty { display: none; }
+
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 16px; border: none; border-radius: 14px;
+    font-size: 17px; font-weight: 600; text-decoration: none; cursor: pointer;
+    margin-bottom: 12px; transition: transform .1s, opacity .2s;
+    font-family: inherit;
+  }
+  .btn:active { transform: scale(0.98); }
+  .wsp { background: #25d366; color: #fff; }
+  .naranja { background: var(--naranja); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .volver { background: none; border: none; color: var(--gris); font-size: 14px; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
+
+  .pregunta { margin-bottom: 24px; }
+  .pregunta label.t { display: block; font-weight: 600; font-size: 16px; margin-bottom: 10px; }
+  .caritas { display: flex; justify-content: space-between; gap: 6px; }
+  .carita {
+    flex: 1; aspect-ratio: 1; max-width: 62px;
+    font-size: 30px; background: var(--fondo); border: 2px solid transparent;
+    border-radius: 14px; cursor: pointer; transition: transform .15s, border-color .15s, background .15s;
+    filter: grayscale(0.6);
+  }
+  .carita.sel { border-color: var(--naranja); background: var(--naranja-suave); transform: scale(1.1); filter: none; }
+  .leyenda { display: flex; justify-content: space-between; font-size: 12px; color: var(--gris); margin-top: 6px; }
+  .elegido { font-size: 13px; color: var(--naranja); font-weight: 600; min-height: 18px; margin-top: 6px; text-align: center; }
+
+  select, textarea, input[type=text] {
+    width: 100%; padding: 12px 14px; font-size: 15px; font-family: inherit;
+    border: 1.5px solid #e2e4e6; border-radius: 12px; background: #fff; color: var(--texto);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  select:focus, textarea:focus, input:focus { outline: none; border-color: var(--naranja); }
+  .opcional { font-weight: 400; color: var(--gris); font-size: 13px; }
+
+  .gracias-emoji { font-size: 64px; margin-bottom: 10px; }
+  .privacidad { font-size: 12px; color: var(--gris); text-align: center; line-height: 1.4; margin-top: 4px; }
+  footer { margin-top: 16px; font-size: 12px; color: #9aa0a5; text-align: center; }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <!-- PANTALLA 1: BIENVENIDA -->
+  <section id="inicio" class="centro">
+    <div class="logo"><span class="p">Préstamos</span><span class="r">Rápido</span><span class="f">y Fácil</span></div>
+    <h1>¡Hola! Qué gusto verte 🧡</h1>
+    <span class="agencia" id="agencia1"></span>
+    <p class="sub">Únete a nuestra comunidad o cuéntanos cómo te fue hoy. ¡Nos ayuda muchísimo!</p>
+    <a class="btn wsp" id="btnWsp" href="#" target="_blank" rel="noopener">💬 Unirme al grupo de WhatsApp</a>
+    <button class="btn naranja" onclick="mostrar('encuesta')">⭐ Contarnos cómo te atendimos</button>
+  </section>
+
+  <!-- PANTALLA 2: ENCUESTA -->
+  <section id="encuesta" class="oculto">
+    <button class="volver" onclick="mostrar('inicio')">← Volver</button>
+    <h2>¿Cómo te fue hoy? 😊</h2>
+    <p class="sub">Toca una carita. Te toma menos de un minuto.</p>
+
+    <div class="pregunta oculto" id="bloqueAgencia">
+      <label class="t" for="selAgencia">¿En qué agencia te atendimos?</label>
+      <select id="selAgencia"><option value="">Elige tu agencia…</option></select>
+    </div>
+
+    <div class="pregunta" data-entry="entry.1738081497">
+      <label class="t">¿Cómo te atendió nuestro asesor?</label>
+      <div class="caritas"></div>
+      <div class="elegido"></div>
+    </div>
+
+    <div class="pregunta" data-entry="entry.2122341453">
+      <label class="t">¿Qué te pareció el monto que te ofrecimos?</label>
+      <div class="caritas"></div>
+      <div class="elegido"></div>
+    </div>
+
+    <div class="pregunta" data-entry="entry.324733189">
+      <label class="t">¿Qué tan rápido te atendimos?</label>
+      <div class="caritas"></div>
+      <div class="elegido"></div>
+    </div>
+
+    <div class="pregunta">
+      <label class="t" for="comentario">¿Algo que quieras contarnos? <span class="opcional">(opcional)</span></label>
+      <textarea id="comentario" maxlength="500" placeholder="Un saludo, una sugerencia o algo que podamos mejorar 🙌"></textarea>
+    </div>
+
+    <div class="pregunta">
+      <label class="t" for="nombre">¿Cómo te llamas? <span class="opcional">(opcional)</span></label>
+      <input type="text" id="nombre" maxlength="60" autocomplete="off" placeholder="Tu nombre">
+    </div>
+
+    <!-- Campo trampa para bots: las personas no lo ven -->
+    <input type="text" id="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+
+    <button class="btn naranja" id="btnEnviar" disabled onclick="enviar()">Enviar mi opinión</button>
+    <p class="privacidad">🔒 Tus respuestas son confidenciales y solo se usan para mejorar nuestra atención. No pedimos DNI, teléfono ni datos bancarios.</p>
+  </section>
+
+  <!-- PANTALLA 3: GRACIAS -->
+  <section id="gracias" class="oculto centro">
+    <div class="gracias-emoji">🥳</div>
+    <h1>¡Muchas gracias!</h1>
+    <p class="sub">Tu opinión llega directo a nuestro equipo y nos ayuda a mejorar cada día. ¡Te esperamos pronto! 🧡</p>
+    <a class="btn wsp" id="btnWsp2" href="#" target="_blank" rel="noopener">💬 Unirme al grupo de WhatsApp</a>
+  </section>
+
+  <footer>Préstamos Rápido y Fácil</footer>
+</main>
+
+<script>
+  // ===== CONFIGURACIÓN =====
+  const WHATSAPP = "https://chat.whatsapp.com/KwHulRXWJVu4quIWVFIuZx";
+  const FORM_POST = "https://docs.google.com/forms/d/e/1FAIpQLSfLc8BK-qwuB_s98nVbwFb-OAQTOtHMVerpZoKqRJZ8eV-dMg/formResponse";
+  const E = {
+    agencia:    "entry.810407592",
+    comentario: "entry.1454773504",
+    nombre:     "entry.1105688741"
+  };
+  // slug del link -> texto EXACTO de la opción en el formulario
+  const AGENCIAS = {
+    "chiclayo-balta":      "Chiclayo - Balta",
+    "chimbote-bolognesi":  "Chimbote - Bolognesi",
+    "piura-guardia-civil": "Piura - Guardia Civil",
+    "piura-huancavelica":  "Piura - Huancavelica",
+    "piura-sanchez-cerro": "Piura - Sánchez Cerro",
+    "sullana-bolivar":     "Sullana - Bolívar",
+    "talara-grau":         "Talara - Grau",
+    "trujillo-america":    "Trujillo - América",
+    "trujillo-espana":     "Trujillo - España",
+    "trujillo-expomall":   "Trujillo - Expomall",
+    "trujillo-husares":    "Trujillo - Húsares",
+    "trujillo-larco":      "Trujillo - Larco",
+    "tumbes-bolognesi":    "Tumbes - Bolognesi"
+  };
+  // =========================
+
+  const CARAS = [
+    { e: "😞", t: "Nada bien" },
+    { e: "😕", t: "Podría mejorar" },
+    { e: "😐", t: "Normal" },
+    { e: "🙂", t: "Bien" },
+    { e: "😍", t: "¡Excelente!" }
+  ];
+
+  const agencia = AGENCIAS[new URLSearchParams(location.search).get("ag")] || "";
+  const respuestas = {};
+
+  document.getElementById("btnWsp").href = WHATSAPP;
+  document.getElementById("btnWsp2").href = WHATSAPP;
+
+  if (agencia) {
+    document.getElementById("agencia1").textContent = "📍 Agencia " + agencia;
+  } else {
+    // Sin agencia en el link: se la preguntamos
+    const sel = document.getElementById("selAgencia");
+    Object.values(AGENCIAS).forEach(a => sel.add(new Option(a, a)));
+    sel.addEventListener("change", validar);
+    document.getElementById("bloqueAgencia").classList.remove("oculto");
+  }
+
+  document.querySelectorAll(".pregunta[data-entry]").forEach(p => {
+    const cont = p.querySelector(".caritas");
+    const txt = p.querySelector(".elegido");
+    CARAS.forEach((c, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "carita";
+      b.textContent = c.e;
+      b.setAttribute("aria-label", c.t);
+      b.onclick = () => {
+        cont.querySelectorAll(".carita").forEach(x => x.classList.remove("sel"));
+        b.classList.add("sel");
+        txt.textContent = c.t;
+        respuestas[p.dataset.entry] = String(i + 1);
+        validar();
+      };
+      cont.appendChild(b);
+    });
+  });
+
+  function agenciaFinal() {
+    return agencia || document.getElementById("selAgencia").value;
+  }
+
+  function validar() {
+    const listo = Object.keys(respuestas).length === 3 && agenciaFinal();
+    document.getElementById("btnEnviar").disabled = !listo;
+  }
+
+  function mostrar(id) {
+    ["inicio", "encuesta", "gracias"].forEach(s =>
+      document.getElementById(s).classList.toggle("oculto", s !== id));
+    window.scrollTo(0, 0);
+  }
+
+  // Una respuesta por celular cada 12 horas (evita envíos repetidos)
+  const ESPERA_MS = 12 * 60 * 60 * 1000;
+  function yaRespondio() {
+    try { return Date.now() - Number(localStorage.getItem("rf_enviado") || 0) < ESPERA_MS; }
+    catch (e) { return false; }
+  }
+
+  async function enviar() {
+    const btn = document.getElementById("btnEnviar");
+    // Bot (llenó el campo trampa) o envío repetido: se agradece pero no se guarda
+    if (document.getElementById("web").value || yaRespondio()) { mostrar("gracias"); return; }
+    btn.disabled = true;
+    btn.textContent = "Enviando…";
+    const datos = new URLSearchParams();
+    datos.append(E.agencia, agenciaFinal());
+    for (const k in respuestas) datos.append(k, respuestas[k]);
+    const com = document.getElementById("comentario").value.trim();
+    const nom = document.getElementById("nombre").value.trim();
+    if (com) datos.append(E.comentario, com);
+    if (nom) datos.append(E.nombre, nom);
+    try {
+      await fetch(FORM_POST, { method: "POST", mode: "no-cors", body: datos, referrerPolicy: "no-referrer" });
+      try { localStorage.setItem("rf_enviado", String(Date.now())); } catch (e) {}
+      mostrar("gracias");
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = "Enviar mi opinión";
+      alert("No pudimos enviar tu respuesta. Revisa tu conexión e inténtalo otra vez 🙏");
+    }
+  }
+</script>
+</body>
+</html>
