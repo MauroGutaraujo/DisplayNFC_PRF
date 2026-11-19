@@ -137,6 +137,11 @@
       <select id="selAgencia"><option value="">Elige tu agencia…</option></select>
     </div>
 
+    <div class="pregunta">
+      <label class="t" for="asesor">¿Quién te atendió?</label>
+      <input type="text" id="asesor" maxlength="60" autocomplete="off" placeholder="Nombre del asesor">
+    </div>
+
     <div class="pregunta" data-entry="entry.1738081497">
       <label class="t">¿Cómo te atendió nuestro asesor?</label>
       <div class="caritas"></div>
@@ -192,7 +197,8 @@
   const E = {
     agencia:    "entry.810407592",
     comentario: "entry.1454773504",
-    nombre:     "entry.1105688741"
+    nombre:     "entry.1105688741",
+    asesor:     "entry.1050218853"
   };
   // slug del link -> texto EXACTO de la opción en el formulario
   const AGENCIAS = {
@@ -238,6 +244,8 @@
     document.getElementById("bloqueAgencia").classList.remove("oculto");
   }
 
+  document.getElementById("asesor").addEventListener("input", validar);
+
   document.querySelectorAll(".pregunta[data-entry]").forEach(p => {
     const cont = p.querySelector(".caritas");
     const txt = p.querySelector(".elegido");
@@ -263,7 +271,8 @@
   }
 
   function validar() {
-    const listo = Object.keys(respuestas).length === 3 && agenciaFinal();
+    const listo = Object.keys(respuestas).length === 3 && agenciaFinal()
+      && document.getElementById("asesor").value.trim().length >= 2;
     document.getElementById("btnEnviar").disabled = !listo;
   }
 
@@ -292,6 +301,8 @@
     for (const k in respuestas) datos.append(k, respuestas[k]);
     const com = document.getElementById("comentario").value.trim();
     const nom = document.getElementById("nombre").value.trim();
+    const ase = document.getElementById("asesor").value.trim();
+    if (ase) datos.append(E.asesor, ase);
     if (com) datos.append(E.comentario, com);
     if (nom) datos.append(E.nombre, nom);
     try {
